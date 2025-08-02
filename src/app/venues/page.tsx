@@ -1,4 +1,6 @@
-import { prisma } from '@/lib/prisma'
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { formatCurrency } from '@/lib/utils'
 
@@ -15,25 +17,75 @@ interface Amenities {
   cafe?: boolean
 }
 
-async function getVenues() {
+interface Court {
+  id: string
+  name: string
+  courtType: string
+  surfaceType: string | null
+  hourlyRate: number
+}
+
+interface Venue {
+  id: string
+  name: string
+  address: string
+  contactInfo: ContactInfo | null
+  amenities: Amenities | null
+  courts: Court[]
+}
+
+async function getVenues(): Promise<Venue[]> {
   try {
-    const venues = await prisma.venue.findMany({
-      include: {
-        courts: true
-      },
-      orderBy: {
-        name: 'asc'
-      }
-    })
-    return venues
+    const response = await fetch('/api/venues')
+    if (!response.ok) {
+      throw new Error('Failed to fetch venues')
+    }
+    return await response.json()
   } catch (error) {
     console.error('Error fetching venues:', error)
     return []
   }
 }
 
-export default async function VenuesPage() {
-  const venues = await getVenues()
+export default function VenuesPage() {
+  const [venues, setVenues] = useState<Venue[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    getVenues()
+      .then(setVenues)
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false))
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-4xl mb-4">🎾</div>
+          <p className="text-lg text-gray-600">Loading venues...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-4xl mb-4">⚠️</div>
+          <p className="text-lg text-gray-600 mb-4">Error loading venues: {error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
