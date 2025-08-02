@@ -2,6 +2,19 @@ import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { formatCurrency } from '@/lib/utils'
 
+interface ContactInfo {
+  phone?: string
+  email?: string
+  website?: string
+}
+
+interface Amenities {
+  parking?: boolean
+  showers?: boolean
+  equipment_rental?: boolean
+  cafe?: boolean
+}
+
 async function getVenues() {
   try {
     const venues = await prisma.venue.findMany({
@@ -54,7 +67,7 @@ export default async function VenuesPage() {
                     <div className="mb-4">
                       <h4 className="font-semibold text-gray-900 mb-2">Amenities:</h4>
                       <div className="flex flex-wrap gap-2">
-                        {Object.entries(venue.amenities as Record<string, boolean>).map(([key, value]) => (
+                        {Object.entries(venue.amenities as Amenities).map(([key, value]) => (
                           value && (
                             <span 
                               key={key} 
@@ -91,11 +104,11 @@ export default async function VenuesPage() {
                     <div className="mb-4">
                       <h4 className="font-semibold text-gray-900 mb-2">Contact:</h4>
                       <div className="text-sm text-gray-600">
-                        {(venue.contactInfo as any).phone && (
-                          <div>📞 {(venue.contactInfo as any).phone}</div>
+                        {(venue.contactInfo as ContactInfo).phone && (
+                          <div>📞 {(venue.contactInfo as ContactInfo).phone}</div>
                         )}
-                        {(venue.contactInfo as any).email && (
-                          <div>✉️ {(venue.contactInfo as any).email}</div>
+                        {(venue.contactInfo as ContactInfo).email && (
+                          <div>✉️ {(venue.contactInfo as ContactInfo).email}</div>
                         )}
                       </div>
                     </div>
