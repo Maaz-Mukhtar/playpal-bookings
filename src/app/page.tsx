@@ -20,7 +20,7 @@ export default function HomePage() {
                 Find Courts
               </Button>
             </Link>
-            <Link href="/auth/signup">
+            <Link href="/api/auth/signin">
               <Button variant="outline" size="lg">
                 Sign Up
               </Button>
