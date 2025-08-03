@@ -89,7 +89,7 @@ export default function VenuesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-6 sm:py-8">
+      <div className="container mx-auto px-4 py-6 sm:py-8 pb-20 md:pb-8">
         {/* Header */}
         <div className="mb-6 sm:mb-8 text-center sm:text-left">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Find Courts</h1>

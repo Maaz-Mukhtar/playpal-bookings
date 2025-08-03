@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
-      <div className="container mx-auto px-4 py-8 sm:py-16">
+      <div className="container mx-auto px-4 py-8 sm:py-16 pb-20 md:pb-8">
         {/* Hero Section */}
         <div className="text-center mb-12 sm:mb-16">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
