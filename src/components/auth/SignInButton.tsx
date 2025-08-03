@@ -12,13 +12,15 @@ export default function SignInButton() {
 
   if (session) {
     return (
-      <div className="flex items-center gap-4">
-        <span className="text-sm text-gray-600">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+        <span className="text-xs sm:text-sm text-gray-600 truncate max-w-32 sm:max-w-none">
           Hello, {session.user?.name || session.user?.email}
         </span>
         <Button
           variant="outline"
+          size="sm"
           onClick={() => signOut()}
+          className="w-full sm:w-auto"
         >
           Sign Out
         </Button>
@@ -27,17 +29,21 @@ export default function SignInButton() {
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
       <Button
         variant="outline"
+        size="sm"
         onClick={() => signIn('google')}
+        className="w-full sm:w-auto text-xs sm:text-sm"
       >
-        Sign In with Google
+        🔑 Sign In with Google
       </Button>
       <Button
+        size="sm"
         onClick={() => signIn()}
+        className="w-full sm:w-auto text-xs sm:text-sm"
       >
-        Sign In
+        📧 Sign In
       </Button>
     </div>
   )
